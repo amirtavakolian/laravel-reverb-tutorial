@@ -1,0 +1,48 @@
+
+how do we start up our reverb server?
+
+
+first define the database:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=reverb
+DB_USERNAME=root
+DB_PASSWORD=
+
+-------------------------------------------------
+
+then run => php artisan migrate
+
+-------------------------------------------------
+
+php artisan reverb:start
+
+now you can broadcast events from your Laravel application.
+and your client, will listen to these events that have been broadcast
+and you can do something with the data that you're sending.
+
+-------------------------------------------------
+
+php artisan reverb:start --debug
+
+enable debugg option with --debug
+
+we can use it while we're just testing this out so we can see
+which data is being sent to our server.
+
+When we start to send events, these will appear here in the command line
+so we can see all of the data, which channel this has been pushed on
+and when clients connect and disconnect as well.
+
+Now, you don't want to run this in a production environment because the amount of data
+ that is coming through will eventually lead to this command crashing.
+
+We'll see that in the last section of this course when we look at sending a huge amount of events.
+to our reverb server and we'll probably see it crash.
+
+So we're not always going to want to run the debug option
+just while we of course are debugging.
+
+

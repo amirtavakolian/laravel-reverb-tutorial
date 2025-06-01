@@ -1,0 +1,100 @@
+
+we have to
+1- get broadcasting set up
+2- install reverb
+3- run our server
+
+in new version of laravel there is nothing about broadcasting.
+no laravel echo installed in js directory
+and BROADCAST_CONNECTION=logs => any of the events that we create inside of an application
+and we broadcast to a WebSocket server will just be logged out in our Laravel log file.
+
+new version of laravel assumes nothing about
+how you're going to be broadcasting events in real time.
+so we have to install Laravel's broadcasting functionality.
+
+-----------------------------------------------
+
+1- get broadcasting set up:
+
+php artisan install:broadcasting
+
+
+when you're working with real time in Laravel,
+you can choose any real time server supported by Laravel
+=> Ex: reverb, pusher &...
+
+you can even choose a third party server if you want to do that you'll probably have to pay for
+Or you can pull something in locally like Sockety, which is another WebSocket server.
+
+install node dependencies to have laravel echo
+
+---------------------------------------------
+
+now check .env
+
+BROADCAST_CONNECTION=reverb => the broadcast connection has already changed to reverb.
+
+if we search for reverb inside of our ENV file, you can see that it's added.
+some basic sensible defaults for reverb.
+
+Now reverb connections or apps need an app ID, key and secret
+these are important when we go into a production environment,
+because, you have to protect your WebSocket server from anyone being able to push to it.
+
+-----------------------------------------------
+
+in local dev environment => you can change REVERB_HOST to anything you want
+
+REVERB_HOST=localhost
+REVERB_HOST=test-reverb.test
+or...
+
+REVERB_HOST is the only thing worthwhile to change locally
+
+-------------------------------------------------
+
+the VITE config in env are used for javascript client side
+of broadcasting
+
+resources => js => echo.js
+=>
+Laravel Echo is the client side of your real-time functionality.
+When we push an event inside of Laravel internally using an event class,
+This will push all of our event data to our reverb server
+
+Laravel Echo will allow us to receive - detect if an event has been broadcast
+from our reverb server and we can pick this up in the client side.
+
+all the configuration items that we saw in ENV starting with VITE
+are all being referenced in echo.js => for connecting to the right server
+
+-------------------------------------------------
+
+routes => channels:
+
+we define the channels depending on where we're listening to.
+
+there's multiple ways that we can define and return from channels.
+
+
+its 👇🏻  a private channel which will authenticate the user.
+and make sure that they are allowed to access that channel 👇🏻
+
+Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
+
+-------------------------------------------------
+
+config/reverb.php => you can config reverb in this file
+
+for pushing your app in production it should be changed
+=>
+when you want to push your app to production, search the internet
+to find out what you should do :D
+
+
+
+
+
