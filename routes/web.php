@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\Chat\ChatEvent;
 use App\Events\Example;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Support\Facades\Auth;
@@ -52,3 +53,8 @@ Route::get('/logout', function () {
     Auth::logout();
     return redirect()->route('broadcast');
 })->name('logout');
+
+
+
+Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');
+Route::post('/chat/send', [App\Http\Controllers\ChatController::class, 'send'])->name('chat.send');

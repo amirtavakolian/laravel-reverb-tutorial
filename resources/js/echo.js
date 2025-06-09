@@ -12,7 +12,7 @@ const echoConfig = {
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
     disableStats: true,
-    cluster: 'mt1',
+    cluster: 'mt1'
 };
 
 window.Echo = new Echo(echoConfig);
