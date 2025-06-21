@@ -46,3 +46,44 @@ but event can broadcast things if you tell them that you want them to broadcast 
 create an event => php artisan make:event Example
 
 */
+
+
+/*
+🔴 1- first:
+In public channels everyone can connect/subscribe to that channel and get the data.
+
+In private channels  only the users which have authorized to that channel can
+subscribe - connect to that channel get the data
+
+Ex: indirect messages or private chat in Instagram or WhatsApp not everyone can get the data of the chat
+
+*/
+Broadcast::channel('users.{id}', function ($user, $id) {
+    return $user->id == $id;
+});
+
+/*
+we always get the current authenticated user (the user who's trying to connect to this private channel)
+and we also get any of the parameters that are passed in to the channel name Ex: $id
+
+when we connect to this channel, we're going to replace out {id} with the ID of the
+current authenticated user who is trying to connect to the channel.
+=> let channel = window.Echo.private('users.1');    number 1 after dot will use instead of {id}
+
+here we want to make sure that the ID of the user matches what we have passed in here.
+
+*/
+
+
+/*
+🔴 3-
+we can add more logics to check if we are allowed
+to access to this channel or not
+*/
+Broadcast::channel('chat.room.{roomId}', function ($user, $roomId) {
+    if (!$user->canAccessRoom($roomId)) {
+        return false;
+    }
+
+    return true;
+});

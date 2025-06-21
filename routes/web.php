@@ -2,6 +2,7 @@
 
 use App\Events\Chat\ChatEvent;
 use App\Events\Example;
+use App\Http\Controllers\ChatController;
 use Illuminate\Auth\GenericUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,9 @@ Route::get('/logout', function () {
 })->name('logout');
 
 
+Route::get('/chat', [ChatController::class, 'index'])->name('chat');
+Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');
 
-Route::get('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');
-Route::post('/chat/send', [App\Http\Controllers\ChatController::class, 'send'])->name('chat.send');
+
+Route::get('/private', [ChatController::class, 'direct']);
+
